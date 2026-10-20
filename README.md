@@ -19,3 +19,8 @@ A continuación se presenta el modelo conceptual Entidad-Relación del sistema:
 **Acciones realizadas:** Se eliminaron los campos compuestos o repetitivos en las facturas de compra (como listas de varios productos dentro de una sola venta).
 * 🔹 Se separaron las notas de venta en registros individuales mediante la relación entre VENTA y PRODUCTO, creando una estructura de detalle (CONTIENE) donde cada fila registra un único producto con su CANTIDAD, PRECIO_UNITARIO y SUBTOTAL.
 * 🔹 Se aseguró que los campos de identificación (ID_CLIENTE, ID_EMPLEADO, ID_VENTA, ID_PRODUCTO, ID_PROVEEDOR) sean claves primarias únicas y atómicas.
+### Segunda Forma Normal (2FN):
+> **Objetivo:** Garantizar que el esquema esté en 1FN y que todos los atributos que no forman parte de la clave primaria dependan de toda la clave primaria y no de solo una parte de ella (en claves compuestas).
+**Acciones realizadas:**
+* 🔹En la relación de detalle entre VENTA y PRODUCTO (relación N:M que genera la tabla intermedia Detalle_Venta), los atributos CANTIDAD, PRECIO_UNITARIO y SUBTOTAL dependen directamente de la combinación de (ID_VENTA, ID_PRODUCTO).
+* 🔹 Datos propios del producto (como NOMBRE, STOCK_ACTUAL y PRECIO_AL_MENOR) se mantuvieron de manera independiente dentro de la entidad PRODUCTO, evitando que dependan parcialmente de la transacción de venta.
