@@ -12,3 +12,7 @@ Puedes revisar la redacción completa de la entrevista realizada en el archivo [
 A continuación se presenta el modelo conceptual Entidad-Relación del sistema:
 
 ![Diagrama Entidad Relacion](./TAREA%20FERRETERIA.drawio.png)
+
+## Proceso de Normalización (1FN, 2FN, 3FN)
+### Primera Forma Normal (1FN):
+Objetivo: Garantizar que cada atributo contenga un solo valor atómico y no existan listas o valores multivaluados en una sola celda
