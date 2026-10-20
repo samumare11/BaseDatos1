@@ -24,3 +24,27 @@ A continuación se presenta el modelo conceptual Entidad-Relación del sistema:
 **Acciones realizadas:**
 * 🔹En la relación de detalle entre VENTA y PRODUCTO (relación N:M que genera la tabla intermedia Detalle_Venta), los atributos CANTIDAD, PRECIO_UNITARIO y SUBTOTAL dependen directamente de la combinación de (ID_VENTA, ID_PRODUCTO).
 * 🔹 Datos propios del producto (como NOMBRE, STOCK_ACTUAL y PRECIO_AL_MENOR) se mantuvieron de manera independiente dentro de la entidad PRODUCTO, evitando que dependan parcialmente de la transacción de venta.
+### Tercera Forma Normal (3FN):
+* 🔹Proveedores: Se separaron los datos del proveedor (ID_PROVEEDOR, NOMBRE_DISTRIBUIDOR, CELULAR) en la entidad PROVEEDOR, evitando registrar datos del distribuidor dentro de cada producto individual. La entidad PRODUCTO solo guarda la referencia clave ID_PROVEEDOR y el PRECIO_ULTIMA_COMPRA.
+* 🔹Clientes y Empleados: Los datos personales como NOMBRE_COMPLETO o CELULAR dependen directamente de ID_CLIENTE o ID_EMPLEADO, y no de ID_VENTA. La tabla VENTA únicamente relaciona las claves foráneas correspondientes.
+
+```text
+CLIENTE                 VENTA                       DETALLE_VENTA                 PRODUCTO                 PROVEEDOR
++------------------+    +----------------------+    +--------------------+        +--------------------+   +--------------------+
+| ID_CLIENTE  {PK} |    | ID_VENTA        {PK} |    | ID_VENTA   {PK, FK}|        | ID_PRODUCTO   {PK} |   | ID_PROVEEDOR  {PK} |
+| NOMBRE_COMPLETO  | 1--*| FECHA_HORA           | 1--*| ID_PRODUCTO{PK, FK}| *-----1| NOMBRE             | *-1| NOMBRE_DISTRIB.    |
+| CELULAR          |    | MONTO_TOTAL          |    | CANTIDAD           |        | PRECIO_AL_MENOR    |   | CELULAR            |
++------------------+    | TIPO_PAGO            |    | PRECIO_UNITARIO    |        | STOCK_ACTUAL       |   +--------------------+
+                        | ID_CLIENTE       {FK}|    | SUBTOTAL           |        | PRECIO_ULT_COMPRA  |
+                        | ID_EMPLEADO      {FK}|    +--------------------+        | ID_PROVEEDOR   {FK}|
+                        +----------------------+                                  +--------------------+
+                                   |
+                                   *
+                                   |
+                                   1
+                        +----------------------+
+                        | EMPLEADO             |
+                        +----------------------+
+                        | ID_EMPLEADO     {PK} |
+                        | NOMBRE_EMPLEADO      |
+                        +----------------------+
