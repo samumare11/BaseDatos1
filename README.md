@@ -25,9 +25,8 @@ A continuación se presenta el modelo conceptual Entidad-Relación del sistema:
 * 🔹En la relación de detalle entre VENTA y PRODUCTO (relación N:M que genera la tabla intermedia Detalle_Venta), los atributos CANTIDAD, PRECIO_UNITARIO y SUBTOTAL dependen directamente de la combinación de (ID_VENTA, ID_PRODUCTO).
 * 🔹 Datos propios del producto (como NOMBRE, STOCK_ACTUAL y PRECIO_AL_MENOR) se mantuvieron de manera independiente dentro de la entidad PRODUCTO, evitando que dependan parcialmente de la transacción de venta.
 ### Tercera Forma Normal (3FN):
-* 🔹Proveedores: Se separaron los datos del proveedor (ID_PROVEEDOR, NOMBRE_DISTRIBUIDOR, CELULAR) en la entidad PROVEEDOR, evitando registrar datos del distribuidor dentro de cada producto individual. La entidad PRODUCTO solo guarda la referencia clave ID_PROVEEDOR y el PRECIO_ULTIMA_COMPRA.
-* 🔹Clientes y Empleados: Los datos personales como NOMBRE_COMPLETO o CELULAR dependen directamente de ID_CLIENTE o ID_EMPLEADO, y no de ID_VENTA. La tabla VENTA únicamente relaciona las claves foráneas correspondientes.
-
+* 🔹Eliminación de dependencias transitivas en Proveedores: Los datos del distribuidor (NOMBRE_DISTRIBUIDOR, CELULAR) dependían funcionalmente del proveedor y no directamente del código del producto. Al separarlos en la entidad independiente PROVEEDOR, se eliminó la dependencia transitiva, dejando en PRODUCTO únicamente la clave foránea ID_PROVEEDOR.
+* 🔹Eliminación de dependencias transitivas en Clientes y Empleados: Atributos como el nombre completo o celular de un cliente o empleado no deben depender de la transacción (ID_VENTA). Al aislarlos en sus respectivas tablas (CLIENTE y EMPLEADO), se asegura que dichos datos dependan exclusivamente de sus propias claves primarias (ID_CLIENTE e ID_empleado), evitando redundancias y anomalías de actualización.
 ```text
 CLIENTE                 VENTA                       DETALLE_VENTA                 PRODUCTO                 PROVEEDOR
 +------------------+    +----------------------+    +--------------------+        +--------------------+   +--------------------+
