@@ -28,48 +28,45 @@ A continuación se presenta el modelo conceptual Entidad-Relación del sistema:
 * 🔹Eliminación de dependencias transitivas en Proveedores: Los datos del distribuidor (NOMBRE_DISTRIBUIDOR, CELULAR) dependían funcionalmente del proveedor y no directamente del código del producto. Al separarlos en la entidad independiente PROVEEDOR, se eliminó la dependencia transitiva, dejando en PRODUCTO únicamente la clave foránea ID_PROVEEDOR.
 * 🔹Eliminación de dependencias transitivas en Clientes y Empleados: Atributos como el nombre completo o celular de un cliente o empleado no deben depender de la transacción (ID_VENTA). Al aislarlos en sus respectivas tablas (CLIENTE y EMPLEADO), se asegura que dichos datos dependan exclusivamente de sus propias claves primarias (ID_CLIENTE e ID_empleado), evitando redundancias y anomalías de actualización.
 ```text
-+-------------------+       +-------------------+       +-------------------+
-|     CLIENTE       |       |       VENTA       |       |     EMPLEADO      |
-+-------------------+       +-------------------+       +-------------------+
-| PK  id_cliente    |<------| FK1 id_cliente    |       | PK  id_empleado   |<---+
-|     nombre_completo|      | PK  id_venta      |       |     nombre_empleado|   |
-|     celular       |       |     fecha_hora    |       +-------------------+   |
-+-------------------+       |     tipo_pago     |                               |
-                            |     monto_total   |-------------------------------+
-                            | FK2 id_empleado   |
-                            +-------------------+
-                                      |
-                                      | 1:N
-                                      v
-                            +-------------------+       +-------------------+
-                            |   DETALLE_VENTA   |       |     PRODUCTO      |
-                            +-------------------+       +-------------------+
-                            | PK,FK1 id_venta   |       | PK  id_producto   |<---+
-                            | PK,FK2 id_producto|------>|     codigo        |    |
-                            |     cantidad      |       |     nombre        |    |
-                            |     precio_unitario|      |     precio_al_menor|   |
-                            |     subtotal      |       |     stock_actual  |    |
-                            +-------------------+       |     precio_ultima_c|   |
-                                                        | FK1 id_categoria  |    |
-                                                        | FK2 id_proveedor  |----+
-                                                        |     activo        |
-                                                        |     fecha_alta    |
-                                                        +-------------------+
-                                                                  |
-                         +----------------------------------------+
-                         |
-                         v
-+-------------------+
-|     CATEGORIA     |
-+-------------------+
-| PK  id_categoria  |
-|     nombre_cat    |
-+-------------------+
-
-+-------------------+
-|     PROVEEDOR     |
-+-------------------+
-| PK  id_proveedor  |
-|     nombre_distrib|
-|     celular       |
-+-------------------+
++------------------------+      +------------------------+      +------------------------+
+|        CLIENTE         |      |         VENTA          |      |        EMPLEADO        |
++------------------------+      +------------------------+      +------------------------+
+| PK  id_cliente         |<-----| FK1 id_cliente         |      | PK  id_empleado        |<---+
+|     nombre_completo    |      | PK  id_venta           |      |     nombre_empleado    |    |
+|     celular            |      |     fecha_hora         |      +------------------------+    |
++------------------------+      |     tipo_pago          |                                    |
+                                |     monto_total        |------------------------------------+
+                                | FK2 id_empleado        |
+                                +------------------------+
+                                            |
+                                            | 1:N
+                                            v
+                                +------------------------+      +------------------------+
+                                |     DETALLE_VENTA      |      |        PRODUCTO        |
+                                +------------------------+      +------------------------+
+                                | PK,FK1 id_venta        |      | PK  id_producto        |
+                                | PK,FK2 id_producto     |----->|     codigo             |
+                                |     cantidad           |      |     nombre             |
+                                |     precio_unitario    |      |     precio_al_menor    |
+                                |     subtotal           |      |     stock_actual       |
+                                +------------------------+      |     precio_ultima_c    |
+                                                                | FK1 id_categoria       |--+
+                                                                | FK2 id_proveedor       |---+|
+                                                                |     activo             |  | |
+                                                                |     fecha_alta         |  | |
+                                                                +------------------------+  | |
+                                                                                            | |
++------------------------+                                                                  | |
+|       CATEGORIA        |                                                                  | |
++------------------------+                                                                  | |
+| PK  id_categoria       |<-----------------------------------------------------------------+ |
+|     nombre_cat         |                                                                    |
++------------------------+                                                                    |
+                                                                                              |
++------------------------+                                                                    |
+|       PROVEEDOR        |                                                                    |
++------------------------+                                                                    |
+| PK  id_proveedor       |<-------------------------------------------------------------------+
+|     nombre_distrib     |
+|     celular            |
++------------------------+
